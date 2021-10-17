@@ -33,6 +33,10 @@
 
     &:hover {
       transform: unset;
+
+      svg {
+        transform: unset;
+      }
     }
   }
 }

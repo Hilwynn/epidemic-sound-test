@@ -6,6 +6,10 @@
   line-height: normal;
   transition: all .1s ease-in-out;
 
+  svg {
+    transition: all .1s ease-in-out;
+  }
+
   &:hover {
     transform: scale(1.05);
 
