@@ -1,0 +1,52 @@
+.button {
+  display: grid;
+  place-content: center;
+  border: 0;
+  padding: 0;
+  line-height: normal;
+  transition: all .1s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+
+    svg {
+      transform: scale(1.05);
+    }
+  }
+
+  &:focus {
+    outline: 2px solid #fff;
+  }
+}
+
+.square {
+  color: #bbb;
+  background-color: transparent;
+  width: 3rem;
+  height: 3rem;
+
+  &:hover {
+    color: #fff;
+  }
+}
+
+.round {
+  color: #fff;
+  background-color: #333;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+}
+
+.pill {
+  color: #000;
+  background-color: #fff;
+  border-radius: 9999px;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+
+  &:focus {
+    outline-offset: 2px;
+  }
+}
