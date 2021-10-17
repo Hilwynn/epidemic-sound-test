@@ -98,7 +98,7 @@ function playlistReducer(state, action) {
 function PlaylistContextProvider({ children }) {
   const [state, dispatch] = useReducer(playlistReducer, { playlists: [] });
   const [currentPlaylist, setCurrentPlaylist] = useState({});
-  const [shuffle, setShuffle] = useState(false);
+  const [shufflePlaylist, setShufflePlaylist] = useState(false);
   const [shuffledPlaylist, setShuffledPlaylist] = useState(null);
 
   useEffect(() => {
@@ -111,10 +111,10 @@ function PlaylistContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (!shuffle) {
+    if (!shufflePlaylist) {
       setShuffledPlaylist(null);
     }
-  }, [shuffle]);
+  }, [shufflePlaylist]);
 
   const createPlaylist = title =>
     dispatch({ type: "createPlaylist", payload: { title } });
@@ -138,7 +138,7 @@ function PlaylistContextProvider({ children }) {
     });
 
   const toggleShuffle = async () => {
-    setShuffle(oldState => !oldState);
+    setShufflePlaylist(oldState => !oldState);
   };
 
   const value = {
@@ -151,7 +151,7 @@ function PlaylistContextProvider({ children }) {
     setCurrentPlaylist,
     addTrackToPlaylist,
     removeTrackFromPlaylist,
-    shuffle,
+    shufflePlaylist,
     toggleShuffle,
     shuffledPlaylist,
     setShuffledPlaylist
