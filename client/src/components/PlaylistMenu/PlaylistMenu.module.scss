@@ -23,10 +23,6 @@
     text-overflow: ellipsis;
   }
 
-  [data-reach-menu-item]:first-child {
-    border-bottom: 1px solid #888;
-  }
-
   [data-reach-menu-item][data-selected] {
     background-color: #555;
   }
