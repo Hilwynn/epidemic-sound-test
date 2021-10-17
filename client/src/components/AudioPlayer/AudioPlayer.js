@@ -1,32 +1,37 @@
-import Player, { RHAP_UI } from "react-h5-audio-player";
+import { useRef, useState } from "react";
+import Player from "react-h5-audio-player";
 import { usePlaylists } from "../../context/playlistContext";
 import { useTracks } from "../../context/trackContext";
 import { shuffleList } from "../../utils/array";
 import customIcons from "./customIcons";
 import GradientLogoSVG from "../Icons/GradientLogoSVG";
+import RepeatOneSVG from "../Icons/RepeatOneSVG";
 import ShuffleSVG from "../Icons/ShuffleSVG";
 import "./AudioPlayer.scss";
 import styles from "./AudioPlayer.module.scss";
 
 function AudioPlayer() {
+  const audioPlayerRef = useRef(null);
   const { currentTrack, setCurrentTrack } = useTracks();
+  const [repeatTrack, setRepeatTrack] = useState(false);
   const {
     currentPlaylist,
-    shuffle,
+    shufflePlaylist,
     toggleShuffle,
     shuffledPlaylist,
     setShuffledPlaylist
   } = usePlaylists();
 
-  const getCurrentTrackIndex = playlist =>
-    playlist.findIndex(track => track.id === currentTrack.id);
+  const getCurrentTrackIndex = (playlist, currentTrackId) => {
+    return playlist.findIndex(track => track.id === currentTrackId);
+  };
 
   const handleNextTrack = () => {
     const playlist = shuffledPlaylist || currentPlaylist.tracks;
-    if (currentTrack && playlist.length > 1) {
-      const currentTrackIndex = getCurrentTrackIndex(playlist);
+    if (currentTrack && playlist?.length > 1) {
+      const currentTrackIndex = getCurrentTrackIndex(playlist, currentTrack.id);
+
       if (currentTrackIndex < playlist.length - 1) {
-        console.log("currentTrackIndex NEXT", currentTrackIndex);
         setCurrentTrack(playlist[currentTrackIndex + 1]);
       }
     }
@@ -34,29 +39,61 @@ function AudioPlayer() {
 
   const handlePreviousTrack = () => {
     const playlist = shuffledPlaylist || currentPlaylist.tracks;
-    if (currentTrack && playlist.length > 1) {
-      const currentTrackIndex = getCurrentTrackIndex(playlist);
+    if (currentTrack && playlist?.length > 1) {
+      const currentTrackIndex = getCurrentTrackIndex(playlist, currentTrack.id);
+
       if (currentTrackIndex - 1 >= 0) {
-        console.log("currentTrackIndex PREV", currentTrackIndex);
         setCurrentTrack(playlist[currentTrackIndex - 1]);
       }
     }
   };
 
+  const handleRepeat = () => {
+    const audioPlayer = audioPlayerRef.current.audio.current;
+    if (!repeatTrack) {
+      audioPlayer.setAttribute("loop", "");
+    } else {
+      audioPlayer.removeAttribute("loop");
+    }
+    setRepeatTrack(oldState => !oldState);
+  };
+
   const handleShuffle = () => {
-    if (!shuffle && currentPlaylist?.tracks?.length > 1) {
-      const shuffledList = shuffleList(currentPlaylist.tracks).filter(
-        track => track.id !== currentTrack.id
-      );
-      setShuffledPlaylist([currentTrack, ...shuffledList]);
+    if (!shufflePlaylist && currentPlaylist?.tracks?.length > 1) {
+      const shuffledList = shuffleList(currentPlaylist.tracks);
+
+      if (currentTrack) {
+        const filteredList = shuffledList.filter(
+          track => track.id !== currentTrack.id
+        );
+        setShuffledPlaylist([currentTrack, ...filteredList]);
+      } else {
+        setShuffledPlaylist(shuffledList);
+      }
     }
 
     toggleShuffle();
   };
 
-  console.log("SHUFFLE IS ON: ", shuffle);
-  console.log("shuffled: ", shuffledPlaylist);
-  console.log("currentPlaylist: ", currentPlaylist);
+  const RepeatButton = () => (
+    <button
+      className="rhap_button-clear rhap_repeat-button"
+      aria-label={repeatTrack ? "Disable Repeat Track" : "Enable Repeat Track"}
+      onClick={handleRepeat}
+    >
+      <RepeatOneSVG />
+    </button>
+  );
+
+  const ShuffleButton = () => (
+    <button
+      className="rhap_button-clear rhap_shuffle-button"
+      aria-label={shufflePlaylist ? "Disable Shuffle" : "Enable Shuffle"}
+      onClick={handleShuffle}
+    >
+      <ShuffleSVG />
+    </button>
+  );
 
   return (
     <>
@@ -82,7 +119,7 @@ function AudioPlayer() {
         </div>
         <Player
           src={currentTrack?.audio}
-          loop="false"
+          ref={audioPlayerRef}
           onClickPrevious={handlePreviousTrack}
           onClickNext={handleNextTrack}
           showSkipControls={true}
@@ -99,16 +136,7 @@ function AudioPlayer() {
           }
           className={styles.player}
           customIcons={customIcons}
-          customAdditionalControls={[
-            RHAP_UI.LOOP,
-            <button
-              className="rhap_button-clear rhap_shuffle-button"
-              aria-label={shuffle ? "Disable Shuffle" : "Enable Shuffle"}
-              onClick={handleShuffle}
-            >
-              <ShuffleSVG />
-            </button>
-          ]}
+          customAdditionalControls={[<RepeatButton />, <ShuffleButton />]}
         />
       </div>
     </>
