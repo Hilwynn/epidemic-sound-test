@@ -7,7 +7,10 @@ import buttonStyles from "../Button/Button.module.scss";
 import styles from "./PlaylistMenu.module.scss";
 
 function PlaylistMenu({ track }) {
-  const { state, addTrackToPlaylist } = usePlaylists();
+  const {
+    state: { playlists = [] },
+    addTrackToPlaylist
+  } = usePlaylists();
 
   return (
     <Menu>
@@ -18,10 +21,7 @@ function PlaylistMenu({ track }) {
         <AddToPlaylistSVG aria-hidden />
       </MenuButton>
       <MenuList className={styles.list}>
-        <MenuItem onSelect={() => alert("New playlist")}>
-          Add to new playlist
-        </MenuItem>
-        {state.playlists.map(playlist => (
+        {playlists.map(playlist => (
           <MenuItem
             key={playlist.id}
             onSelect={() => addTrackToPlaylist(track, playlist.id)}
