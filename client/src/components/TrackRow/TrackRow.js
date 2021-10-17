@@ -8,23 +8,25 @@ import RemoveSVG from "../Icons/RemoveSVG";
 import styles from "./TrackRow.module.scss";
 
 function TrackRow({ track, playlist }) {
-  const { currentTrack, setCurrentTrack } = useTracks();
+  const { setCurrentTrack } = useTracks();
   const {
     removeTrackFromPlaylist,
     setCurrentPlaylist,
     setShuffledPlaylist,
-    shuffle
+    shufflePlaylist
   } = usePlaylists();
 
   const handlePlay = () => {
     setCurrentTrack(track);
     if (playlist) {
       setCurrentPlaylist(playlist);
-      if (shuffle) {
-        const shuffledList = shuffleList(playlist).filter(
-          track => track.id !== currentTrack.id
+
+      if (shufflePlaylist) {
+        const shuffledList = shuffleList(playlist.tracks).filter(
+          playlistTrack => playlistTrack.id !== track.id
         );
-        setShuffledPlaylist([currentTrack, ...shuffledList]);
+
+        setShuffledPlaylist([track, ...shuffledList]);
       }
     } else {
       setCurrentPlaylist({});

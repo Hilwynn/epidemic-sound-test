@@ -18,10 +18,10 @@ function PlaylistDetails() {
     renamePlaylist,
     deletePlaylist,
     setCurrentPlaylist,
-    shuffle,
+    shufflePlaylist,
     setShuffledPlaylist
   } = usePlaylists();
-  const { currentTrack, setCurrentTrack } = useTracks();
+  const { setCurrentTrack } = useTracks();
   const { id } = useParams();
   const history = useHistory();
 
@@ -35,12 +35,14 @@ function PlaylistDetails() {
 
   const handlePlay = () => {
     setCurrentPlaylist(playlist);
-    setCurrentTrack(playlist.tracks[0]);
-    if (shuffle) {
-      const shuffledList = shuffleList(playlist).filter(
-        track => track.id !== currentTrack.id
-      );
-      setShuffledPlaylist([currentTrack, ...shuffledList]);
+
+    if (shufflePlaylist) {
+      const shuffledList = shuffleList(playlist.tracks);
+
+      setShuffledPlaylist(shuffledList);
+      setCurrentTrack(shuffledList[0]);
+    } else {
+      setCurrentTrack(playlist.tracks[0]);
     }
   };
 
