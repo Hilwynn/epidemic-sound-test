@@ -1,0 +1,92 @@
+$rhap_theme-color: #009de0;          // Theme color
+$rhap_background-color: #333;    // Color of the player background
+$rhap_bar-color: #fff;     // Color of volume and progress bar
+$rhap_control-color: #fff;  // Color of all buttons and volume/progress indicators
+$rhap_time-color: inherit;       // Font color of current time and duration
+
+@import "react-h5-audio-player/src/styles.scss";
+
+.rhap_container {
+  button {
+    display: grid;
+    place-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    cursor: unset !important;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.rhap_time {
+  font-size: 1rem;
+}
+
+.rhap_progress-container,
+.rhap_volume-bar-area,
+.rhap_volume-indicator {
+  cursor: unset !important;
+}
+
+.rhap_progress-indicator {
+  background: $rhap_control-color;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.rhap_repeat-button,
+.rhap_shuffle-button {
+  color: $rhap_control-color;
+
+
+  &[aria-label^="Disable"] {
+    color: $rhap_theme-color;
+  }
+}
+
+.rhap_main-controls-button {
+  color: $rhap_control-color;
+}
+
+.rhap_volume-button {
+  color: $rhap_control-color;
+}
+
+.rhap_volume-indicator {
+  z-index: 3;
+  background: $rhap_control-color;
+  opacity: unset;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+.rhap_controls-section {
+  @media only screen and (max-width: 600px)  {
+    flex-wrap: wrap;
+  }
+}
+
+.rhap_stacked {
+  .rhap_controls-section {
+    margin-top: 0.5rem
+  }
+}
+
+.rhap_container {
+  box-shadow: none;
+  padding: 0.5rem 1rem 1rem;
+}
+
+.rhap_main-controls {
+  @media only screen and (max-width: 600px)  {
+    width: 100%;
+    margin-bottom: 8px;
+    order: -1;
+  }
+}

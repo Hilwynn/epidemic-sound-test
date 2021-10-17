@@ -1,0 +1,63 @@
+.audioPlayer {
+  position: fixed;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 148px;
+  background-color: #333;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.11),
+              0 2px 2px rgba(0,0,0,0.11),
+              0 4px 4px rgba(0,0,0,0.11),
+              0 6px 8px rgba(0,0,0,0.11),
+              0 8px 16px rgba(0,0,0,0.11);
+  display: grid;
+  overflow: hidden;
+  grid-template-columns: max-content 1fr;
+  grid-template-areas:  "cover info"
+                        "cover player";
+
+  @media only screen and (max-width: 600px)  {
+    grid-template-columns: 1fr;
+    grid-template-areas:  "info"
+                          "player";
+  }
+}
+
+.trackCover {
+  grid-area: cover;
+  width: 148px;
+  height: 148px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem;
+  }
+
+  @media only screen and (max-width: 600px)  {
+    display: none;
+  }
+}
+
+.trackInfo {
+  grid-area: info;
+  padding: 1rem 1rem 0;
+  min-height: 55px;
+  text-align: center;
+
+  p {
+    margin: 0;
+  }
+}
+
+.trackArtist {
+  color: #bbb;
+  font-size: 0.875rem;
+}
+
+.player {
+  grid-area: player;
+}
