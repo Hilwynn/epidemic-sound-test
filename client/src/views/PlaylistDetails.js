@@ -33,10 +33,6 @@ function PlaylistDetails() {
     }
   }, [id, getPlaylist, setCurrentPlaylist]);
 
-  if (!playlist) {
-    return <div>Loading...</div>;
-  }
-
   const handlePlay = () => {
     setCurrentPlaylist(playlist);
     setCurrentTrack(playlist.tracks[0]);
@@ -54,7 +50,7 @@ function PlaylistDetails() {
   };
 
   return (
-    <>
+    <div aria-live="polite" aria-busy={!playlist}>
       <h2 className={styles.heading}>
         <div className={styles.pageTitle}>Playlist</div>
         <div className={styles.playlistTitle}>{playlist?.title}</div>
@@ -66,12 +62,12 @@ function PlaylistDetails() {
           icon={PlaySVG}
           shape="round"
           className={styles.playButton}
-          disabled={playlist.tracks.length <= 0}
+          disabled={playlist?.tracks?.length === 0}
         />
         <PlaylistForm
           heading="Edit playlist"
           icon={EditSVG}
-          initialValue={playlist.title}
+          initialValue={playlist?.title}
           handler={body => renamePlaylist(playlist.id, body)}
           label="Playlist name"
         />
@@ -86,7 +82,7 @@ function PlaylistDetails() {
           <TrackRow key={track.id} track={track} playlist={playlist} />
         ))}
       </ul>
-    </>
+    </div>
   );
 }
 

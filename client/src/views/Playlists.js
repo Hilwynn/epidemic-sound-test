@@ -11,7 +11,7 @@ function Playlists() {
   } = usePlaylists();
 
   return (
-    <>
+    <div aria-live="polite" aria-busy={!playlists.length > 0}>
       <div className={styles.header}>
         <h2>Playlists</h2>
         <PlaylistForm
@@ -29,7 +29,7 @@ function Playlists() {
             ))
           : null}
       </ul>
-    </>
+    </div>
   );
 }
 
