@@ -1,0 +1,74 @@
+.trackRow {
+  display: grid;
+  grid-template-columns: min-content 1fr min-content 8rem;
+  column-gap: 1rem;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  max-width: 600px;
+  margin: 0 auto;
+
+  .trackRow:last-child {
+    border-bottom: none;
+  }
+
+  .trackInfo {
+    div {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .trackTitle {
+    font-weight: 600;
+  }
+
+  .trackArtist {
+    color: #bbb;
+  }
+
+  .playlistControls {
+    align-self: start;
+    margin-right: -1rem;
+
+    button {
+      color: #bbb;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+  }
+
+  .trackCover {
+    border: 1rem solid #000;
+  }
+
+  @media only screen and (max-width: 576px)  {
+    grid-template-columns: min-content 1fr min-content max-content;
+    grid-template-areas:  "play . playlist cover"
+                          "info info info cover";
+    column-gap: 0;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding-left: 1rem;
+
+    .trackPlay {
+      grid-area: play;
+    }
+
+    .trackInfo {
+      grid-area: info;
+      padding-right: 1rem;
+    }
+
+    .playlistControls {
+      grid-area: playlist;
+      margin-right: 0;
+    }
+
+    .trackCover {
+      grid-area: cover;
+    }
+  }
+}
