@@ -53,37 +53,41 @@ function PlaylistDetails() {
 
   return (
     <div aria-live="polite" aria-busy={!playlist}>
-      <h2 className={styles.heading}>
-        <div className={styles.pageTitle}>Playlist</div>
-        <div className={styles.playlistTitle}>{playlist?.title}</div>
-      </h2>
-      <div className={styles.controls}>
-        <IconButton
-          onClick={handlePlay}
-          label="Start playlist"
-          icon={PlaySVG}
-          shape="round"
-          className={styles.playButton}
-          disabled={playlist?.tracks?.length === 0}
-        />
-        <PlaylistForm
-          heading="Edit playlist"
-          icon={EditSVG}
-          initialValue={playlist?.title}
-          handler={body => renamePlaylist(playlist.id, body)}
-          label="Playlist name"
-        />
-        <IconButton
-          onClick={handleDelete}
-          label="Delete playlist"
-          icon={DeleteSVG}
-        />
-      </div>
-      <ul>
-        {playlist?.tracks.map(track => (
-          <TrackRow key={track.id} track={track} playlist={playlist} />
-        ))}
-      </ul>
+      {playlist && (
+        <>
+          <h2 className={styles.heading}>
+            <div className={styles.pageTitle}>Playlist</div>
+            <div className={styles.playlistTitle}>{playlist?.title}</div>
+          </h2>
+          <div className={styles.controls}>
+            <IconButton
+              onClick={handlePlay}
+              label="Start playlist"
+              icon={PlaySVG}
+              shape="round"
+              className={styles.playButton}
+              disabled={playlist.tracks.length === 0}
+            />
+            <PlaylistForm
+              heading="Edit playlist"
+              icon={EditSVG}
+              initialValue={playlist.title}
+              handler={body => renamePlaylist(playlist.id, body)}
+              label="Playlist name"
+            />
+            <IconButton
+              onClick={handleDelete}
+              label="Delete playlist"
+              icon={DeleteSVG}
+            />
+          </div>
+          <ul>
+            {playlist?.tracks.map(track => (
+              <TrackRow key={track.id} track={track} playlist={playlist} />
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }
