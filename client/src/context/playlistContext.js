@@ -86,9 +86,6 @@ function playlistReducer(state, action) {
       updateLocalStorage(updatedList);
       return { playlists: updatedList };
     }
-    case "changeTrackOrder": {
-      return { count: state.count + 1 };
-    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
