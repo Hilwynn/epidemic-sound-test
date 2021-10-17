@@ -1,44 +1,38 @@
-import React, { useState, useEffect } from "react";
-import styles from "./App.module.css";
-import logo from "./assets/logo.svg";
-
-import TrackRow from "./components/TrackRow";
-import AudioPlayer from "./components/AudioPlayer";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Playlists from "./views/Playlists";
+import PlaylistDetails from "./views/PlaylistDetails";
+import Tracks from "./views/Tracks";
+import AudioPlayer from "./components/AudioPlayer/AudioPlayer";
+import Menu from "./components/Menu/Menu";
+import TrackContextProvider from "./context/trackContext";
+import PlaylistContextProvider from "./context/playlistContext";
+import styles from "./App.module.scss";
 
 function App() {
-  const [tracks, setTracks] = useState([]);
-  const [currentTrack, setCurrentTrack] = useState();
-
-  useEffect(() => {
-    fetch("http://localhost:8000/tracks")
-      .then((res) => res.json())
-      .then((data) => setTracks(data));
-  }, []);
-
-  const handlePlay = (track) => setCurrentTrack(track);
-
   return (
-    <>
-      <main className={styles.app}>
-        <nav>
-          <img src={logo} className={styles.logo} alt="Logo" />
-          <ul className={styles.menu}>
-            <li>
-              <a href="#" className={styles.active}>
-                Tracks
-              </a>
-            </li>
-            <li>
-              <a href="#">Playlists</a>
-            </li>
-          </ul>
-        </nav>
-        {tracks.map((track, ix) => (
-          <TrackRow key={ix} track={track} handlePlay={handlePlay} />
-        ))}
-      </main>
-      {currentTrack && <AudioPlayer track={currentTrack} />}
-    </>
+    <TrackContextProvider>
+      <PlaylistContextProvider>
+        <Router>
+          <header>
+            <Menu />
+          </header>
+          <main className={styles.main}>
+            <Switch>
+              <Route path="/" exact>
+                <Tracks />
+              </Route>
+              <Route path="/playlists" exact>
+                <Playlists />
+              </Route>
+              <Route path="/playlists/:id">
+                <PlaylistDetails />
+              </Route>
+            </Switch>
+            <AudioPlayer />
+          </main>
+        </Router>
+      </PlaylistContextProvider>
+    </TrackContextProvider>
   );
 }
 
