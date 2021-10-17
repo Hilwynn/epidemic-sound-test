@@ -1,0 +1,38 @@
+.heading {
+  margin-bottom: 2rem;
+}
+
+.pageTitle {
+  font-size: 0.875rem;
+  color: #bbb;
+}
+
+.playlistTitle {
+  font-size: 2rem;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0 2rem;
+}
+
+.playButton {
+  background-color: #009de0;
+  width: 4rem;
+  height: 4rem;
+  margin-right: 1rem;
+
+  svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  &:disabled {
+    background-color: #333;
+
+    &:hover {
+      transform: unset;
+    }
+  }
+}
